@@ -9,7 +9,17 @@ import Checkout from '../components/Checkout'
 
 export default (props) => (
   <Switch>
-    <Route exact path="/" component={ Home } />
+    <Route exact path="/" 
+    render={ (routeProps) => {
+      // An example of adding props to a component rendered by react router
+      return <Home 
+                { ...routeProps }
+                show={true}
+                currentUser={props.currentUser}
+                setCurrentUser={props.setCurrentUser}
+              /> 
+    } }/>
+
 
     <Route path="/login" render={ (routeProps) => {
       // An example of adding props to a component rendered by react router

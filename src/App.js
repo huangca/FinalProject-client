@@ -93,6 +93,27 @@ import UserModel from './models/user';
     });
   }
 
+  handleMinusToCart=(e,product)=>{
+     e.preventDefault();
+      this.setState(state => {
+      const cartItems = state.cartItems;
+  
+
+      for(let cp of cartItems){
+        if (cp._id === product._id) {
+          if(cp.count-1===0){
+            this.handleRemoveFromCart(e,product)
+              return ;
+          }
+          cp.count -= 1;
+         localStorage.setItem('cartItems', JSON.stringify(cartItems));
+      return { cartItems: cartItems };
+        }
+      }
+    });
+
+  }
+
 
   handleRemoveFromCart=(e, product)=>{
     this.setState(state => {
@@ -112,6 +133,8 @@ import UserModel from './models/user';
           logout={this.logout}  
           cartItems={this.state.cartItems} 
           handleRemoveFromCart={this.handleRemoveFromCart}
+           handleAddToCart={this.handleAddToCart}
+           handleMinusToCart={this.handleMinusToCart}
           />
      <Routes currentUser={this.state.currentUser} 
             setCurrentUser={this.setCurrentUser} 

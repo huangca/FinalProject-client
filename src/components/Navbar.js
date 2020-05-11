@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 //import Modal from 'react-responsive-modal';
-//import './Navbar.css';
+import './Navbar.css';
+import util from '../util'
 import Cart from './Cart';
 
 
@@ -60,8 +61,32 @@ handleCartClose=(event)=>{
                     <a className="nav-link" href="/logout" onClick={ this.props.logout }>Logout</a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link" href="#" onClick={this.handleCartOpen}>Cart</a>
-                    <label>count{this.props.cartItems.length}</label>
+                    <div className="">
+                    <a className="nav-link" href="#" onClick={this.handleCartOpen}><img className='cart-icon' src='./cart_icon.png' /></a>
+                                    
+                      </div>
+                  </li>
+                  <li>
+                    <div className="cart-info">
+                      <table>
+                        <tbody>
+                          <tr>
+                            <td>Items</td>
+                            <td>:</td>
+                            <td>
+                              <strong>{this.props.cartItems.length}</strong>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Sub Total</td>
+                            <td>:</td>
+                            <td>
+                              <strong>{util.formatCurrency(this.props.cartItems.reduce((a, c) => (a + c.price * c.count), 0))}</strong>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </li>
                 </>
               :
@@ -78,7 +103,7 @@ handleCartClose=(event)=>{
               }
             </ul>
           </div>
-          {this.state.showCart?<Cart show={this.state.showCart} cartItems={this.props.cartItems} handleRemoveFromCart={this.props.handleRemoveFromCart} handleCartClose={this.handleCartClose}/>:null}
+          {this.state.showCart?<Cart show={this.state.showCart} cartItems={this.props.cartItems} handleRemoveFromCart={this.props.handleRemoveFromCart} handleCartClose={this.handleCartClose} handleAddToCart={this.props.handleAddToCart} handleMinusToCart={this.props.handleMinusToCart} />:null}
         </div>
 
 			</nav>

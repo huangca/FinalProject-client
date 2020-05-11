@@ -1,6 +1,7 @@
 import React from 'react';
 import UserModel from '../models/user'
 import OrderModel from '../models/order'
+import EmailModel from '../models/email'
 
 import util from '../util'
 import { Modal } from 'react-bootstrap'; //will use modal to display order detail,so will import order model later, but now just import but not use
@@ -17,7 +18,9 @@ export default class Profile extends React.Component {
         show:false,  //will use it later for order display
         orders:[],
         selectOrder:'',
-        orderDetail:[]
+        orderDetail:[],
+        subject:'',
+        text:''
   }
 
   	UserModel.getUser(this.props.currentUser)
@@ -81,7 +84,7 @@ handleSubmit = (event) => {
 
 handleOrderDetail=(event)=>{
    event.preventDefault()
-    //console.log(event.target.id)
+    console.log(event.target.id)
     this.setState({
         selectOrder:event.target.id,
         show:true
@@ -96,6 +99,19 @@ handleOrderDetail=(event)=>{
     .catch(err=>console.log(err))
 }
 
+handleEmailSubmit=(event)=>{
+  event.preventDefault()
+  let data={
+    subject:this.state.subject,
+    text:this.state.text
+  }
+  EmailModel.sendEmail(data)
+    .then(res=>{
+      window.location.reload(false);
+    })
+    .catch(err=>console.log(err))
+}
+
   handleClose=()=>{
   this.setState({
     show:false
@@ -106,7 +122,7 @@ handleOrderDetail=(event)=>{
 
 	render() {
 		const Button = () => (
-				<button className="btn btn-primary float-right" type="submit">update</button>
+				<button className="btn btn-primary" type="submit">update</button>
 				)
 
 		const EditButton=()=>(
@@ -139,7 +155,7 @@ handleOrderDetail=(event)=>{
 
 
 		return (
-			<div className="container mt-4">
+			<div className="container-fluid">
         <div className="row">
           <div className="col-xl-4 offset-xl-4">
             <h4 className="mb-3">profile</h4>
@@ -159,24 +175,50 @@ handleOrderDetail=(event)=>{
 
               <div className="form-group">
                 <label htmlFor="address">Address</label>
-                <input onChange={this.handleChange} className="form-control form-control-lg border-0" type="text" id="address" name="address" value={this.state.address} readOnly={this.state.readonly} />
+                <input onChange={this.handleChange} className="form-control form-control-lg" type="text" id="address" name="address" value={this.state.address} readOnly={this.state.readonly} />
               </div>
 
              {this.state.readonly?null:<Button />}
              {this.state.readonly?<EditButton />:null}
 
             </form>
+            <br/>
             {this.state.orders.map((order)=>(
               <>
-                <label>order number:</label>
-                <a id={order._id} href="#" onClick={this.handleOrderDetail}>{order._id}  
-                </a>
-                <label>order date:{order.createdAt}</label>
+              <div class="container-fluid border">
+              <div class="row">
+                <label>order number: <a id={order._id} href="#" onClick={this.handleOrderDetail}>{order._id}</a></label>
+                </div>
+                <div class="row">
+                <label><b>order date</b>:{new Date(order.createdAt).getMonth()+1}-{new Date(order.createdAt).getDate()}-{new Date(order.createdAt).getFullYear()}</label>
                 {this.state.selectOrder==order._id?<ShowDetail orderDetail={this.state.orderDetail} />:null}
+                  </div>
+                </div>
                   </>
                 
             ))}
-
+            <br/>
+            <div class="container border">
+                <h4 className="mb-3">Contect to seller</h4>
+            <form onSubmit={this.handleEmailSubmit}>
+              <div className="form-group">
+                <label htmlFor="username">Subject</label>
+                <input 
+                    onChange={this.handleChange} 
+                    className="form-control form-control-lg" 
+                    type="text" 
+                    id="subject" 
+                    name="subject" 
+                    value={this.state.subject}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="name">content</label>
+                <textarea onChange={this.handleChange} className="form-control form-control-lg" type="text" id="text" name="text" value={this.state.text} />
+              </div>
+              <button className="btn btn-primary float-right" type="submit">send</button>
+            </form>
+            </div>
           </div>
             
         </div>

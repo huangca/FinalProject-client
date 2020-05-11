@@ -1,0 +1,17 @@
+body,h1 {font-family: "Raleway", sans-serif}
+body, html {height: 100%}
+.main-page{
+	font-family: "Raleway", sans-serif;
+	color:black;
+}
+.bgimg {
+  background-image: url('/home_cart.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 500px;
+	}
+.w3-border-grey{
+	margin:auto;
+	width:40%;
+}

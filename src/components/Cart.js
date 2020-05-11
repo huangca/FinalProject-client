@@ -45,12 +45,12 @@ export default class Cart extends React.Component {
                         <ul style={{ marginLeft: -25 }}>
                             {cartItems.map(item => (
                                 <li key={item._id}>
-                                    <img src={item.image} />
+                                    <img src={item.image} className="img-cart" />
                                     <b>{item.name}</b>
                                     <button style={{ float: 'right' }} className="btn btn-danger btn-xs"
                                         onClick={(e) => this.props.handleRemoveFromCart(e, item)}>X</button>
                                     <br />
-                                    {item.count} X {util.formatCurrency(item.price)}
+                                  <button onClick={(e)=>this.props.handleMinusToCart(e,item)}>-</button>  {item.count} <button onClick={(e)=>this.props.handleAddToCart(e,item)}>+</button> X {util.formatCurrency(item.price)}
                                 </li>))
                             }
                         </ul>
