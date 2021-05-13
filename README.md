@@ -1,3 +1,11 @@
+[Live Demo](https://finalproject-client.herokuapp.com/)
+
+[Back end](https://github.com/huangca/FinalProject-backend)
+ 
+B2C E-Commerce website fornt end
+React.js + bootstrap
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
